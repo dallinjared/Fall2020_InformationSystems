@@ -7,25 +7,27 @@
 from datetime import datetime
 
 
-class Appointment:
-    def __init__(self):
+class Appointment():
+    def __init__(self, owner):
         self.begin_date
         self.end_date
         self.day_rate
         self.total_days
         self.total_cost
-        # self.owner = owner
+        self.owner = oCustomer
 
-    def set_appointment(self, begin_date, end_date, day_rate):
-        self.begin_date = begin_date
-        self.end_date = end_date
+    def set_appointment(self, dBegin_Date, dEnd_Date, day_rate):
+        self.begin_date = dBegin_Date
+        self.end_date = dEnd_Date
         self.day_rate = day_rate
-        self.calc_days()
+        self.total_days = calc_days()
         # self.balance
 
     def calc_days(self):
         self.total_days = (self.end_date - self.begin_date).days
-        self.total_cost = total_days * self.day_rate
+        if self.total_days <= 0:
+            self.total_days = 1
+        # self.total_cost = total_days * self.day_rate
 
 
 class Pet:
@@ -33,7 +35,7 @@ class Pet:
         self.pet_name = sPetName
         self.breed = sBreed
         self.age = iAge
-        self.appointment = None
+        self.appointment = Appointment.set_appointment(self)
 
     def get_pet_info(self):
         return (self.pet_name + ' ' + self.breed + ' ' + self.age)
@@ -93,14 +95,8 @@ oCustomer.cust_pet = Pet(sPetName, sPetBreed, iAge)
 
 print(oCustomer.cust_pet.get_pet_info())
 
-begin_date = datetime.strptime(
+dBegin_Date = datetime.strptime(
     input("Enter Start date in the format m/d/yyyy: "), "%m/%d/%Y")
 
-end_date = datetime.strptime(
+dEnd_Date = datetime.strptime(
     input("Enter End date in the format m/d/yyyy: "), "%m/%d/%Y")
-
-day_rate = 1.2
-
-oCustomer.cust_pet.appointment = Appointment().set_appointment(
-    begin_date, end_date, day_rate)
-print(oCustomer.cust_pet.appointment.total_days)
