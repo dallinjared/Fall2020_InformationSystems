@@ -4,101 +4,135 @@
 # them, their pet, and appointment details so we know which pets are in our care,
 # who they belong to, how to contact them, and how much we're owed for our services.
 
+#import modules
 from datetime import datetime
 
+#set up global variables
+oTotalCustomers = []
 
+#set up my classes
 class Customer:
-    def __init__(self, sFirstName, sLastName, sAddress1, sAddress2, sCity, sState, sZip):
+
+    #set up any class varibles
+    company_name = "Critter Watch"
+
+    def __init__(self, sFirstName, sLastname, sAddress1, sAddress2, sCity, sState, sZip) :
         self.first_name = sFirstName
-        self.last_name = sLastName
+        self.last_name = sLastname
         self.address1 = sAddress1
         self.address2 = sAddress2
         self.city = sCity
         self.state = sState
-        self.zip = sZip
+        self.zip_code = sZip
         self.balance = 0.0
-        self.cust_pet = None
-        self.cust_id = None
+        self.cust_pet = []     
+        self.cust_id = self.gen_id(sFirstName, sLastname, sAddress1)
 
-    def gen_id(self):
-        return (self.first_name[0:3] + self.last_name[0:3] + self.address1[0:5]).replace(" ", "")
+    #make the methods
+    def gen_id(self, first_name, last_name, address1) :
+        first_name.replace(" ", "")
+        last_name.replace(" ", "")
+        address1.replace(" ", "")
+        cust_id = first_name[0:3] + last_name[0:3] + address1[0:3]
+        return (cust_id)
 
-    def return_bill(self):
-        return "Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name
-        + " owes " + self.balance + self.cust_pet.pet_name + " 's stay from "
+    def return_bill(self, i, j) :
+        return (f"Customer {self.cust_id} with the name {self.first_name} {self.last_name} owes {self.balance} for {self.cust_pet[i].pet_name}'s stay from {self.cust_pet[i].appointment[j].begin_date} to {self.cust_pet[i].appointment[j].end_date}  ")
 
-    def make_payment(self, balance):
-        self.fBalance = balance - self.fBalance
+    def make_payment(self, fPayment) :
+        self.balance = self.balance - fPayment
 
+class Pet :
+    def __init__(self, pet_name, breed, age, owner) :
+        self.pet_name = pet_name
+        self.breed = breed
+        self.age = age
+        self.appointment = []
 
-class Pet:
-    def __init__(self, sPetName, sBreed, iAge):
-        self.pet_name = sPetName
-        self.breed = sBreed
-        self.age = iAge
-        self.appointment = Appointment()
+class Appointment :
+    def __init__(self, owner) :
+        self.begin_date = None
+        self.end_date = None
+        self.day_rate = None
+        self.total_days = None
+        self.total_cost = None
+        self.owner = owner
 
-    def get_pet_info(self):
-        return (self.pet_name + ' ' + self.breed + ' ' + self.age)
-
-    # Name the company
-    company_name = "Critter Watch"
-    # create the constructor and inicialize the instance varables
-
-
-class Appointment:
-    def __init__(self):
-        pass
-
-    def set_appointment(self, dBegin_Date, dEnd_Date, day_rate):
-        self.begin_date = dBegin_Date
-        self.end_date = dEnd_Date
+    #lets make the methods
+    def set_appointment(self, begin_date, end_date, day_rate) :
+        self.begin_date = begin_date
+        self.end_date = end_date
         self.day_rate = day_rate
-        self.calc_days = self.calc_days()
-        # self.balance
+        self.calc_days()
+        self.owner.balance = self.total_cost
 
-    def calc_days(self):
+    def calc_days(self) :
+
+        #calculate the total_days
         self.total_days = (self.end_date - self.begin_date).days
-        if self.total_days <= 0:
+        
+        #check if the total_days is <= 0
+        if (self.total_days <= 0) :
             self.total_days = 1
-        self.total_cost = self.total_days * self.day_rate
 
+        #Calculate the total cost
+        self.total_cost = (self.total_days * day_rate)
+        
+#Get information from the user
+iNumOfCust = int(input("\n\nHow many customers will there be today? "))
 
-# From user, get personal information as it pertains to their address and name
-sFirstName = 'Dallin'  # input("Enter the customer first name: ")
-sLastName = 'Jared'  # input("Enter the customer last name: ")
-sAddress1 = '1234 W 4321 N'  # input("Enter the customer address 1: ")
-sAddress2 = 'Apt 321'  # input("Enter the customer address 2: ")
-sCity = 'Provo'  # input("Enter the customer city: ")
-sState = 'Utah'  # input("Enter the customer state: ")
-sZip = '84003'  # input("Enter the customer zip: ")
+for i in range(0,iNumOfCust) :
 
-# Call Customer constructor
-oCustomer = Customer(sFirstName, sLastName, sAddress1,
-                     sAddress2, sCity, sState, sZip)
+    #owner info
+    sFirstName = input(f"\n\nWhat is the first name of customer number {(i + 1)}? ")
+    sLastname = input(f"\n\nWhat is the last name of customer number {(i + 1)}? ")
+    sAddress1 = input("\n\nWhat is the house number and street name where you live? ")
+    sAddress2 = input("\n\nWhat is the appartment number of where you live? ")
+    sCity = input("\n\nWhat is the city called in which you live? ")
+    sState = input("\n\nWhat state do you live in? ")
+    sZip = input("\n\nAdditionally, what is your zip code? ")
+    #make cutomer object
+    oCustomer = Customer(sFirstName, sLastname, sAddress1, sAddress2, sCity, sState, sZip)
 
-oCustomer.cust_id = oCustomer.gen_id()
-print(oCustomer.cust_id)
+    iNumOfPets = int(input(f"\n\nHow many pets does customer number {(i + 1)} have? "))
+    for i in range (0,iNumOfPets) :
+        #pet info
+        print("\n\nNow let's get some information about your pet!\n\n")
+        pet_name = input("\nWhat is your pet's name? ")
+        breed = input("\nWHat is the breed of your pet? ")
+        age = input("\nhow old is your pet? ")
+        oCustomer.cust_pet.append(Pet(pet_name, breed, age, oCustomer))
 
+    #append that customer object to the more general list of total customers
+    oTotalCustomers.append(oCustomer)
 
-sPetName = 'Cooper'  # input("Enter the customer's pet name: ")
-sPetBreed = 'Porcupine'  # input("Enter the customer's pet breed: ")
-iAge = '9'  # input("Enter the customer's pet age: ")
+    #appointment info
+    iNumOfAppoint = int(input(f"\n\nHow many appointments does customer number {(i + 1)} have? "))
+    j = 0
+    for c in range (0,iNumOfAppoint) :
 
-oCustomer.cust_pet = Pet(sPetName, sPetBreed, iAge)
+        dBegin_Date = datetime.strptime(input("\n\nEnter Start date in the format m/d/yyyy: "), "%m/%d/%Y")
+        dEndin_Date = datetime.strptime(input("\n\nEnter end date in the format m/d/yyyy: "), "%m/%d/%Y")
+        day_rate = float(input(f"\n\nWhat is the daily rate for customer number {(i + 1)}? "))
+        oTotalCustomers[i].cust_pet[i].appointment.append(Appointment(oTotalCustomers[i]))
+        oTotalCustomers[i].cust_pet[i].appointment[i].set_appointment(dBegin_Date, dEndin_Date, day_rate)
 
-print(oCustomer.cust_pet.get_pet_info())
+        j = c
 
-dBegin_Date = datetime.strptime(
-    input("Enter Start date in the format m/d/yyyy: "), "%m/%d/%Y")
+    #Print out the recite for customer
+    print(oTotalCustomers[i].return_bill(i, j), "\n")
 
-dEnd_Date = datetime.strptime(
-    input("Enter End date in the format m/d/yyyy: "), "%m/%d/%Y")
+    #check to see if the customer will be paying now
+    sPaymentYesOrNo = input(f"\n\nDoes customer {(i + 1)} wish to make a payment now? Yes or No: ")
+    
+    if (sPaymentYesOrNo.upper == "YES" or "Y") :
+        fPayment = float(input(f"\n\nHow Much will customer {(i + 1)} be paying at this time? "))
+    else :
+        fPayment = 0
+    
+    #call the make_payment method
+    oTotalCustomers[i].make_payment(fPayment)
 
-day_rate = 12
-
-oCustomer.cust_pet.appointment.set_appointment(
-    dBegin_Date, dEnd_Date, day_rate)
-
-print(oCustomer.cust_pet.appointment.total_days)
-print(oCustomer.cust_pet.appointment.total_cost)
+    #call return_bill one more time with most current bill
+    print("\n\nThank you for working with us! Your current bill is the following:")
+    print(oTotalCustomers[i].return_bill(i, j))
