@@ -1,9 +1,3 @@
-# Pet Boarding OOP Assignment (Huy Doan, True Fullmer, Dallin Jared, Royce Cotcher)
-# This program is written to help our Pet Boarding Company collect information
-# on our customers and the pets they bring into our care. We'll collect info about
-# them, their pet, and appointment details so we know which pets are in our care,
-# who they belong to, how to contact them, and how much we're owed for our services.
-
 #import modules
 from datetime import datetime
 
@@ -125,7 +119,7 @@ for i in range(0,iNumOfCust) :
     #check to see if the customer will be paying now
     sPaymentYesOrNo = input(f"\n\nDoes customer {(i + 1)} wish to make a payment now? Yes or No: ")
     
-    if (sPaymentYesOrNo.upper == "YES" or "Y") :
+    if (sPaymentYesOrNo.upper == "YES" or sPaymentYesOrNo.upper == "Y") :
         fPayment = float(input(f"\n\nHow Much will customer {(i + 1)} be paying at this time? "))
     else :
         fPayment = 0
@@ -136,3 +130,4 @@ for i in range(0,iNumOfCust) :
     #call return_bill one more time with most current bill
     print("\n\nThank you for working with us! Your current bill is the following:")
     print(oTotalCustomers[i].return_bill(i, j))
+
