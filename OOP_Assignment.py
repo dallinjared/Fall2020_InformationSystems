@@ -54,7 +54,7 @@ class Appointment:
         self.begin_date = dBegin_Date
         self.end_date = dEnd_Date
         self.day_rate = day_rate
-        self.calc_days = self.calc_days()
+        self.calc_days()
         # self.balance
 
     def calc_days(self):
