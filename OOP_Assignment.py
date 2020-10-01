@@ -31,7 +31,7 @@ class Customer:
         return (cust_id)
 
     def return_bill(self, i, j) :
-        return (f"Customer {self.cust_id} with the name {self.first_name} {self.last_name} owes {self.balance} for {self.cust_pet[i].pet_name}'s stay from {self.cust_pet[i].appointment[j].begin_date} to {self.cust_pet[i].appointment[j].end_date}  ")
+        return (f"Customer {self.cust_id} with the name {self.first_name} {self.last_name} owes {'{:.2f}'.format(self.balance)} for {self.cust_pet[i].pet_name}'s stay from {self.cust_pet[i].appointment[j].begin_date.strftime('%m/%d/%Y')} to {self.cust_pet[i].appointment[j].end_date.strftime('%m/%d/%Y')}  ")
 
     def make_payment(self, fPayment) :
         self.balance = self.balance - fPayment
@@ -102,6 +102,7 @@ for i in range(0,iNumOfCust) :
 
     #appointment info
     iNumOfAppoint = int(input(f"\n\nHow many appointments does customer number {(i + 1)} have? "))
+
     j = 0
     for c in range (0,iNumOfAppoint) :
 
@@ -119,7 +120,7 @@ for i in range(0,iNumOfCust) :
     #check to see if the customer will be paying now
     sPaymentYesOrNo = input(f"\n\nDoes customer {(i + 1)} wish to make a payment now? Yes or No: ")
     
-    if (sPaymentYesOrNo.upper == "YES" or sPaymentYesOrNo.upper == "Y") :
+    if (sPaymentYesOrNo.upper() == "YES" or sPaymentYesOrNo.upper() == "Y") :
         fPayment = float(input(f"\n\nHow Much will customer {(i + 1)} be paying at this time? "))
     else :
         fPayment = 0
