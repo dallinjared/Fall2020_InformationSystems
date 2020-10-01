@@ -7,44 +7,6 @@
 from datetime import datetime
 
 
-class Appointment():
-    def __init__(self, owner):
-        self.begin_date
-        self.end_date
-        self.day_rate
-        self.total_days
-        self.total_cost
-        self.owner = oCustomer
-
-    def set_appointment(self, dBegin_Date, dEnd_Date, day_rate):
-        self.begin_date = dBegin_Date
-        self.end_date = dEnd_Date
-        self.day_rate = day_rate
-        self.total_days = calc_days()
-        # self.balance
-
-    def calc_days(self):
-        self.total_days = (self.end_date - self.begin_date).days
-        if self.total_days <= 0:
-            self.total_days = 1
-        # self.total_cost = total_days * self.day_rate
-
-
-class Pet:
-    def __init__(self, sPetName, sBreed, iAge):
-        self.pet_name = sPetName
-        self.breed = sBreed
-        self.age = iAge
-        self.appointment = Appointment.set_appointment(self)
-
-    def get_pet_info(self):
-        return (self.pet_name + ' ' + self.breed + ' ' + self.age)
-
-    # Name the company
-    company_name = "Critter Watch"
-    # create the constructor and inicialize the instance varables
-
-
 class Customer:
     def __init__(self, sFirstName, sLastName, sAddress1, sAddress2, sCity, sState, sZip):
         self.first_name = sFirstName
@@ -69,6 +31,39 @@ class Customer:
         self.fBalance = balance - self.fBalance
 
 
+class Pet:
+    def __init__(self, sPetName, sBreed, iAge):
+        self.pet_name = sPetName
+        self.breed = sBreed
+        self.age = iAge
+        self.appointment = Appointment()
+
+    def get_pet_info(self):
+        return (self.pet_name + ' ' + self.breed + ' ' + self.age)
+
+    # Name the company
+    company_name = "Critter Watch"
+    # create the constructor and inicialize the instance varables
+
+
+class Appointment:
+    def __init__(self):
+        pass
+
+    def set_appointment(self, dBegin_Date, dEnd_Date, day_rate):
+        self.begin_date = dBegin_Date
+        self.end_date = dEnd_Date
+        self.day_rate = day_rate
+        self.calc_days = self.calc_days()
+        # self.balance
+
+    def calc_days(self):
+        self.total_days = (self.end_date - self.begin_date).days
+        if self.total_days <= 0:
+            self.total_days = 1
+        self.total_cost = self.total_days * self.day_rate
+
+
 # From user, get personal information as it pertains to their address and name
 sFirstName = 'Dallin'  # input("Enter the customer first name: ")
 sLastName = 'Jared'  # input("Enter the customer last name: ")
@@ -85,8 +80,7 @@ oCustomer = Customer(sFirstName, sLastName, sAddress1,
 oCustomer.cust_id = oCustomer.gen_id()
 print(oCustomer.cust_id)
 
-# Call pet contructor and assign a pet object to cust_pet
-# From User, get animal information
+
 sPetName = 'Cooper'  # input("Enter the customer's pet name: ")
 sPetBreed = 'Porcupine'  # input("Enter the customer's pet breed: ")
 iAge = '9'  # input("Enter the customer's pet age: ")
@@ -100,3 +94,11 @@ dBegin_Date = datetime.strptime(
 
 dEnd_Date = datetime.strptime(
     input("Enter End date in the format m/d/yyyy: "), "%m/%d/%Y")
+
+day_rate = 12
+
+oCustomer.cust_pet.appointment.set_appointment(
+    dBegin_Date, dEnd_Date, day_rate)
+
+print(oCustomer.cust_pet.appointment.total_days)
+print(oCustomer.cust_pet.appointment.total_cost)
