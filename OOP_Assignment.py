@@ -1,3 +1,6 @@
+# Dallin Jared, Huy Doan, True Fullmer, Royce Cotcher
+# Pet Shop Prog OOP Assignment
+
 #import modules
 from datetime import datetime
 
