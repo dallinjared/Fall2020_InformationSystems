@@ -25,7 +25,7 @@ def randomName():
 
 
 def randomBurgers():
-    return random.randint(1, 1)
+    return random.randint(1, 20)
 
 
 # Create our data structures
@@ -47,9 +47,10 @@ while len(queue) > 0:
         queue.pop(0)
 
 # Here we are sorting the dictionary into desending order
-listSortedCustomers = sorted(
+lSortedCustomers = sorted(
     dCustomer.items(), key=lambda x: x[1], reverse=True)
 
 # print out the list of clients
-for key, value in listSortedCustomers:
-    print(key + ": " + str(value))
+for iCount in range(0, len(lSortedCustomers)):
+    print(lSortedCustomers[iCount][0].ljust(19),
+          str(lSortedCustomers[iCount][1]).ljust(19))
